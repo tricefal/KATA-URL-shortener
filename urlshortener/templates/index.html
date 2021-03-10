@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="stylesheet" type="text/css" href="{% static 'CSS/style.css' %}">
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+			integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		<title>Url Shortener</title>
+	</head>
+	<body>
+		<main class="app-container">
+			<h1>Url Shortener</h1>
+			<form action="" method="post" id="post-link">
+				{% csrf_token %}
+				<input type="text" name="link" id="link" placeholder="Enter URL here">
+				<input class="pm0" type="submit" value="shorten" id="submit-form">
+			</form>
+			<div class="shortLink">
+				<h2 id="shortLink"></h2>
+			</div>
+		</main>
+		<script type='text/javascript'>
+
+			$("#post-link").submit(function(event) {
+				event.preventDefault();
+				// alert("test")
+				$.ajax({
+					type: "POST",
+					url: '/create',
+					data: {
+						link: $("#link").val(),
+						csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken").val(),
+					},
+					success: function(data){
+						$("#shortLink").html("localhost:8000/" + data)
+					},
+				});
+			});
+		</script>
+	</body>
+	
+
+</html>
